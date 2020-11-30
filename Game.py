@@ -25,4 +25,6 @@ class Game:
         return False
 
     def get_song(self):
-        return
+        song_path = './ongoing_game_songs/%s.mid' % self.id
+        self.song.write('midi', song_path)
+        return song_path

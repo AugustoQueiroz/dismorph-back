@@ -22,12 +22,21 @@ def newGame():
 
     return jsonify({'gameID': game_id})
 
+@app.route('/game/<game_id>/getSong', methods=['GET'])
+def get_song(game_id):
+    try:
+        song_path = ongoing_games[game_id].get_song()
+        return send_file(song_path, attachment_filename='%s.mid' % game_id)
+    except KeyError:
+        return 'The provided GameID does not match any ongoing game.', 404
 
 @app.route('/game/<game_id>/changeTempo', methods=['GET'])
 def change_tempo(game_id):
     #request.form['speedScalingFactor']
     try:
-        ongoing_games[game_id].change_tempo(request.form['speedScalingFactor'])
+        ongoing_games[game_id].change_tempo(request.args.get('speedScalingFactor', None))
+        song_path = ongoing_games[game_id].get_song()
+        return send_file(song_path, attachment_filename='%s.mid' % game_id)
     except KeyError: # The provided game id does not exist
         return 'The provided GameID does not match any ongoing game.', 404
 
@@ -35,7 +44,9 @@ def change_tempo(game_id):
 def change_pitch(game_id):
     #request.form['transposeValue']
     try:
-        ongoing_games[game_id].change_tempo(int(request.form['transposeValue']))
+        ongoing_games[game_id].change_tempo(int(request.args.get('transposeValue', 0)))
+        song_path = ongoing_games[game_id].get_song()
+        return send_file(song_path, attachment_filename='%s.mid' % game_id)
     except KeyError: # The provided game id does not exist
         return 'The provided GameID does not match any ongoing game.', 404
 
