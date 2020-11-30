@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import random
 
 from Game import Game
@@ -14,7 +14,7 @@ def newGame():
     game_id = ''.join(random.shuffle(words)[:3])
 
     song_path = 'songs/' + random.shuffle(os.listdir('songs'))[0] # Randomly choose a song
-    ongoing_games[game_id] = Game(song_path)
+    ongoing_games[game_id] = Game(game_id, song_path)
     ongoing_games[game_id].dismorph()
 
     return jsonify({'gameID': game_id})
