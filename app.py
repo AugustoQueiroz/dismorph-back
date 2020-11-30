@@ -50,13 +50,25 @@ def change_pitch(game_id):
     except KeyError: # The provided game id does not exist
         return 'The provided GameID does not match any ongoing game.', 404
 
+@app.route('/game/<game_id>/shiftInstruments', methods=['GET'])
+def shift_instruments(game_id):
+    try:
+        ongoing_games[game_id].shift_instruments(request.args.get('shift_right', False))
+        song_path = ongoing_games[game_id].get_song()
+        return send_file(song_path, attachment_filename='%s.mid' % game_id)
+    except KeyError: # The provided game id does not exist
+        return 'The provided GameID does not match any ongoing game.', 404
+
 @app.route('/game/<game_id>/confirmAnswer', methods=['GET'])
 def confirm_answer(game_id):
     try:
-        if ongoing_games[game_id].is_solved():
-            pass
-        else:
-            pass
+        game = ongoing_games[game_id]
+        return jsonify({
+            'result': game.is_solved(),
+            'final_speed_scaling_factor': game.speed_scaling_factor,
+            'final_transpose_value': game.transpose_value,
+            'final_number_of_shifts': game.times_shifted
+            })
     except KeyError: # The provided game id does not exist
         return 'The provided GameID does not match any ongoing game.', 404
 
