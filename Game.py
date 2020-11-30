@@ -15,12 +15,12 @@ class Game:
 
     def dismorph(self):
         # generate the disturbances to the original song
-        self.speed_scaling_factor = random.random() * random.randint(1, 5)
                         # TODO - Fix these values ^
-        self.change_tempo(self.speed_scaling_factor)
-        self.transpose_value = random.randint(-100, 100)
+        self.speed_scaling_factor = 1
+        #self.change_tempo(random.random() * random.randint(1, 5))
                         # TODO - Fix these values ^
-        self.change_pitch(self.transpose_value)
+        self.transpose_value = 0
+        #self.change_pitch(random.randint(-100, 100))
         self.times_shifted = 0
         # for _ in range(random.randint(1, len(self.__get_song_instruments())-1)):
         #     self.shift_instruments()
