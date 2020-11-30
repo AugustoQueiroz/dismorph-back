@@ -34,7 +34,7 @@ def get_song(game_id):
 def change_tempo(game_id):
     #request.form['speedScalingFactor']
     try:
-        ongoing_games[game_id].change_tempo(request.args.get('speedScalingFactor', None))
+        ongoing_games[game_id].change_tempo(float(request.args.get('speedScalingFactor', None)))
         song_path = ongoing_games[game_id].get_song()
         return send_file(song_path, attachment_filename='%s.mid' % game_id)
     except KeyError: # The provided game id does not exist

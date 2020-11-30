@@ -12,13 +12,17 @@ class Game:
         self.transpose_value = random.randint(-100, 100)
                         # TODO - Fix these values ^
 
-    def change_tempo(self, speed_scaling_factor):
+    def change_tempo(self, speed_scaling_factor: float):
         # Change the tempo of the song
-        pass
+        self.song = self.song.scaleOffsets(speed_scaling_factor).scaleDurations(speed_scaling_factor)
 
     def change_pitch(self, transpose_value: int):
         # Change the pitch of the song
-        pass
+        for part in self.song.parts:
+            for pitch in part.pitches:
+                pitch.transpose(transpose_value, inPlace=True)
+        
+        self.transpose_value += transpose_value
 
     def is_solved(self) -> bool:
         # Verify if the song has been correctly resolved
