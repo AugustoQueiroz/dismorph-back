@@ -11,9 +11,12 @@ ongoing_games = {}
 @app.route('/newGame/', methods=['GET'])
 def newGame():
     words = ['Augusto', 'Queiroz', 'Hugo', 'Lispector', 'Erik', 'Zambom', 'Pedro', 'Brant', 'Danilo', 'Freitas', 'Andre', 'Neto', 'Yuri', 'Monteiro']
-    game_id = ''.join(random.shuffle(words)[:3])
+    random.shuffle(words)
+    game_id = ''.join(words[:3])
 
-    song_path = 'songs/' + random.shuffle(os.listdir('songs'))[0] # Randomly choose a song
+    songs = os.listdir('songs')
+    random.shuffle(songs)
+    song_path = 'songs/' + songs[0] # Randomly choose a song
     ongoing_games[game_id] = Game(game_id, song_path)
     ongoing_games[game_id].dismorph()
 
